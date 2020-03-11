@@ -12,7 +12,7 @@ from models import *
 # Flask routes
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "secret"
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://username:password@localhost/myDbName"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://user_sensor:pass_sensor@localhost/sensordb"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 socketio = SocketIO(app)
