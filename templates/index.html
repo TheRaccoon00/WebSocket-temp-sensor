@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>Temperature sensor</title>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+  <script type="text/javascript" charset="utf-8">
+    var socket = io();
+    socket.on('connect', function() {
+      socket.emit('my event', {data: 'I\'m connected!'});
+    });
+  </script>
+
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(function(){
+      var socket = io.connect('http://' + document.domain + ':' + location.port + '/sensor');
+      socket.on('connected', function(msg) {
+        msg.data.forEach(function(reading) {
+            $('#temp-table').append('<tr><td>'+reading.temp+'</td><td>'+reading.time+'</td></tr>');
+        });
+
+      });
+      socket.on('my response', function(msg) {
+        $('#temp-table').append('<tr><td>'+msg.temp+'</td><td>'+msg.time+'</td></tr>');
+      });
+    });
+
+  </script>
+
+  <style>
+    table,td {
+      border: 1px solid #333;
+    }
+    thead,tfoot {
+      background-color: #333;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <h1> TEMPERATURE DATAS </h1>
+  <table style="margin-left: 10%;width:40%;">
+    <thead>
+      <tr>
+        <th colspan="2">The table header</th>
+      </tr>
+    </thead>
+    <tbody id="temp-table">
+      <tr>
+        <td>Temperature</td>
+        <td>Time</td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+</html>
